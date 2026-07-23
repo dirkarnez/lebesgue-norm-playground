@@ -42,5 +42,35 @@
     
     console.log(L1_Norm([new Complex(3, 4), new Complex(3, 4), new Complex(3, 4)], (c) => c.magnitude));
   </script>
+  <script>
+    // 1. Soft-Thresholding Operator (The core of L1 filtering)
+    // It pulls values towards 0 by the amount of lambda. If it drops below 0, it clips to 0.
+    function softThreshold(value, lambda) {
+        return Math.sign(value) * Math.max(Math.abs(value) - lambda, 0);
+    }
+    
+    // 2. Generate a mock 10-element signal
+    // Most of the signal is 0 (sparse), except for two strong peaks
+    const trueSignal = [0, 10, 0, 0, -8, 0, 0, 0, 0, 0];
+    
+    // 3. Add random low-level noise to everything
+    const noisySignal = trueSignal.map(val => val + (Math.random() * 2 - 1)); // Adds noise between -1 and 1
+    
+    // 4. Apply L1 cleaning
+    const lambda = 1.2; // Threshold level (must be slightly greater than the max noise amplitude)
+    const cleanedSignal = noisySignal.map(val => softThreshold(val, lambda));
+    
+    // 5. Output the results side-by-side
+    console.log("Index | True | Noisy  | L1 Cleaned");
+    console.log("----------------------------------");
+    for (let i = 0; i < trueSignal.length; i++) {
+        console.log(
+            `${i}     | ` +
+            `${trueSignal[i].toFixed(1).padStart(4)} | ` +
+            `${noisySignal[i].toFixed(2).padStart(6)} | ` +
+            `${cleanedSignal[i].toFixed(2).padStart(6)}`
+        );
+    }
+  </script>
 </body>
 </html>
