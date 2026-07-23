@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+  <a href="https://github.com/dirkarnez/playground" target="_blank">dirkarnez/playground</a><br>
+  <div id="container"></div>
+  <script>
+    const div = document.getElementById("container");
+    const log = (...data) => div.innerHTML += `${data.join(String.fromCharCode(0x20))}<br>`;
+    const error = (...data) => div.innerHTML += `<span style="color: red">${data.join(String.fromCharCode(0x20))}<span><br>`;
+    // log(1,2,3);
+    // error(1,2,3);
+
+    function L1_Norm(vector, absFunction) {
+      return vector.reduce((sum, value) => sum + absFunction(value), 0);
+    }
+    
+    console.log(L1_Norm([3, -4, 2], Math.abs));
+
+    class Complex {
+      constructor(real, imaginary) {
+        this.real = real;
+        this.imaginary = imaginary;
+      }
+    
+      get magnitude() {
+        return Math.hypot(this.real, this.imaginary);
+      }
+    
+      toString() {
+        return `${this.real} ${this.imaginary >= 0 ? '+' : '-'} ${Math.abs(this.imaginary)}i`;
+      }
+    }
+    
+    console.log(L1_Norm([new Complex(3, 4), new Complex(3, 4), new Complex(3, 4)], (c) => c.magnitude));
+  </script>
+</body>
+</html>
